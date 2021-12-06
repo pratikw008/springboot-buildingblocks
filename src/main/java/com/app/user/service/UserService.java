@@ -15,4 +15,6 @@ public interface UserService {
 	public UserEntity updateUserById(int id, UserEntity userEntity);
 	
 	public String deleteUserById(int id);
+	
+	public UserEntity findByUsername(String username);
 }

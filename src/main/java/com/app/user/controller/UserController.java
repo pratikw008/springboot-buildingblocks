@@ -56,4 +56,9 @@ public class UserController {
 	public String deleteById(@PathVariable("id") int id) {
 		return userService.deleteUserById(id);
 	}
+	
+	@GetMapping("/byUsername/{username}")
+	public UserEntity findByUsername(@PathVariable String username) {
+		return userService.findByUsername(username);
+	}
 }

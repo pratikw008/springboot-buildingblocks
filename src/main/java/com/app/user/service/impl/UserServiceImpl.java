@@ -1,6 +1,7 @@
 package com.app.user.service.impl;
 
 import java.util.List;
+import java.util.function.Function;
 
 import org.springframework.stereotype.Service;
 
@@ -61,5 +62,12 @@ public class UserServiceImpl implements UserService {
 		}
 		else
 			return "Plz Provide Valid ID:"+id;
+	}
+	
+	@Override
+	public UserEntity findByUsername(String username) {
+		return userRepository.findByUsername(username)
+							 .map(Function.identity())
+							 .orElseThrow(() -> new RuntimeException("Plz Provide Valid UserName::"+username));
 	}
 }
