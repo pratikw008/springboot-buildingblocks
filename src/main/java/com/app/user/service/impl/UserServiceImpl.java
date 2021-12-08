@@ -1,10 +1,12 @@
 package com.app.user.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 import org.springframework.stereotype.Service;
 
+import com.app.user.exceptions.UserExistsException;
 import com.app.user.exceptions.UserNotFoundException;
 import com.app.user.model.UserEntity;
 import com.app.user.repository.UserRepository;
@@ -26,7 +28,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserEntity createUser(UserEntity userEntity) {
+	public UserEntity createUser(UserEntity userEntity) throws UserExistsException {
+		
+		Optional<UserEntity> existingUser = userRepository.findByUsername(userEntity.getUsername());
+		if(existingUser.isPresent()) {
+			throw new UserExistsException("User Already Exists In DB");
+		}
 		return userRepository.save(userEntity);
 	}
 

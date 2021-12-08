@@ -2,6 +2,7 @@ package com.app.user.service;
 
 import java.util.List;
 
+import com.app.user.exceptions.UserExistsException;
 import com.app.user.exceptions.UserNotFoundException;
 import com.app.user.model.UserEntity;
 
@@ -9,7 +10,7 @@ public interface UserService {
 
 	public List<UserEntity> getAllUsers();
 	
-	public UserEntity createUser(UserEntity userEntity);
+	public UserEntity createUser(UserEntity userEntity) throws UserExistsException;
 	
 	public UserEntity getUserById(int id) throws UserNotFoundException;
 	

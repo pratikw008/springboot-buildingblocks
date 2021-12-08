@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import com.app.user.exceptions.UserExistsException;
 import com.app.user.model.UserEntity;
 import com.app.user.repository.UserRepository;
 
@@ -39,7 +40,7 @@ class UserServiceImplTest {
 	}
 	
 	@Test
-	public void testCreateUser() {
+	public void testCreateUser() throws UserExistsException {
 		UserEntity user = getUser();
 		
 		when(userRepository.save(user)).thenReturn(user);

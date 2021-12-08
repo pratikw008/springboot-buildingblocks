@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.app.user.exceptions.UserExistsException;
 import com.app.user.exceptions.UserNotFoundException;
 import com.app.user.model.UserEntity;
 import com.app.user.service.UserService;
@@ -40,7 +41,13 @@ public class UserController {
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
 				 produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity userEntity) {
-		UserEntity savedInDB = userService.createUser(userEntity);
+		UserEntity savedInDB;
+		try {
+			savedInDB = userService.createUser(userEntity);
+		} catch (UserExistsException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
+		
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedInDB.getId()).toUri();
 		return ResponseEntity.created(location).body(savedInDB);
 	}
