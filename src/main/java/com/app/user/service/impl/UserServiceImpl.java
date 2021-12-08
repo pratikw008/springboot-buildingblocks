@@ -5,6 +5,7 @@ import java.util.function.Function;
 
 import org.springframework.stereotype.Service;
 
+import com.app.user.exceptions.UserNotFoundException;
 import com.app.user.model.UserEntity;
 import com.app.user.repository.UserRepository;
 import com.app.user.service.UserService;
@@ -30,12 +31,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserEntity getUserById(int id) {
-		return userRepository.findById(id).get();
+	public UserEntity getUserById(int id) throws UserNotFoundException {
+		return userRepository.findById(id)
+							 .map(Function.identity())
+							 .orElseThrow(() -> new UserNotFoundException("User Not Found In DB"));
 	}
 
 	@Override
-	public UserEntity updateUserById(int id, UserEntity userEntity) {
+	public UserEntity updateUserById(int id, UserEntity userEntity) throws UserNotFoundException {
 
 		return userRepository.findById(id).map(entityFromDb -> {
 			if(userEntity.getEmail() != null)
@@ -51,17 +54,17 @@ public class UserServiceImpl implements UserService {
 				entityFromDb.setRole(userEntity.getRole());
 			
 			return userRepository.save(entityFromDb); 
-		}).orElseThrow(() -> new RuntimeException("Plz Provide Valid ID"));
+		}).orElseThrow(() -> new UserNotFoundException("Plz Provide Valid ID"));
 	}
 	
 	@Override
-	public String deleteUserById(int id) {
+	public String deleteUserById(int id) throws UserNotFoundException {
 		if(userRepository.existsById(id)) {
 			userRepository.deleteById(id);
 			return "ID:"+id+" Deleted";
 		}
 		else
-			return "Plz Provide Valid ID:"+id;
+			throw new UserNotFoundException("Plz Provide Valid ID");
 	}
 	
 	@Override
