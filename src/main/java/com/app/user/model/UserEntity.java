@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,9 +29,11 @@ public class UserEntity {
 	@Column(name = "ID")
 	private Integer id;
 	
+	@NotEmpty(message = "Username is mandatory. plz provide username")
 	@Column(name = "USER_NAME", length = 50, nullable = false, unique = true)
 	private String username;
 	
+	@Size(min = 2, message = "FirstName should have atleast 2 characters")
 	@Column(name = "FIRST_NAME", length = 50, nullable = false)
 	private String firstName;
 	

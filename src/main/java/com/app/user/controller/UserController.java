@@ -3,9 +3,13 @@ package com.app.user.controller;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +28,7 @@ import com.app.user.service.UserService;
 
 @RestController
 @RequestMapping("/users")
+@Validated
 public class UserController {
 	
 	private UserService userService;
@@ -40,7 +45,7 @@ public class UserController {
 	
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
 				 produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity userEntity) {
+	public ResponseEntity<UserEntity> createUser(@Valid @RequestBody UserEntity userEntity) {
 		UserEntity savedInDB;
 		try {
 			savedInDB = userService.createUser(userEntity);
@@ -53,7 +58,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/{id}")
-	public UserEntity getUserById(@PathVariable("id") int id) {
+	public UserEntity getUserById(@PathVariable("id") @Min(1) int id) {
 		try {			
 			return userService.getUserById(id);
 		}

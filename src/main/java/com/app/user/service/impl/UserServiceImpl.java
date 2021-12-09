@@ -7,6 +7,7 @@ import java.util.function.Function;
 import org.springframework.stereotype.Service;
 
 import com.app.user.exceptions.UserExistsException;
+import com.app.user.exceptions.UserNameNotFoundException;
 import com.app.user.exceptions.UserNotFoundException;
 import com.app.user.model.UserEntity;
 import com.app.user.repository.UserRepository;
@@ -78,6 +79,6 @@ public class UserServiceImpl implements UserService {
 	public UserEntity findByUsername(String username) {
 		return userRepository.findByUsername(username)
 							 .map(Function.identity())
-							 .orElseThrow(() -> new RuntimeException("Plz Provide Valid UserName::"+username));
+							 .orElseThrow(() -> new UserNameNotFoundException("UserName::"+username+" Not Found In DB"));
 	}
 }
