@@ -42,4 +42,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		ApiErrorDetails errorDetails = new ApiErrorDetails(LocalDateTime.now(), ex.getClass().getName(), ex.getMessage(), request.getDescription(false));
 		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND); 
 	}
+	
+	@ExceptionHandler(OrderNotFoundException.class)
+	public ResponseEntity<ApiErrorDetails> handleOrderNotFoundException(OrderNotFoundException ex, WebRequest request) {
+		ApiErrorDetails errorDetails = new ApiErrorDetails(LocalDateTime.now(), ex.getClass().getName(), ex.getMessage(), request.getDescription(false));
+		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND); 
+	}
 }

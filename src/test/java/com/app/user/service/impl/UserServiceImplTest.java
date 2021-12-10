@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -51,11 +52,11 @@ class UserServiceImplTest {
 	}
 
 	private List<UserEntity> usersList() {
-		return Arrays.asList(new UserEntity(101, "vkohli", "Virat", "Kohli", "vk@gmailcom", "admin", "ssn101"),
-							 new UserEntity(102, "rosharma", "Rohit", "Sharma", "hitman@gmailcom", "admin", "ssn102"));
+		return Arrays.asList(new UserEntity(101, "vkohli", "Virat", "Kohli", "vk@gmailcom", "admin", "ssn101", new ArrayList<>()),
+							 new UserEntity(102, "rosharma", "Rohit", "Sharma", "hitman@gmailcom", "admin", "ssn102", new ArrayList<>()));
 	}
 	
 	private UserEntity getUser() {
-		return new UserEntity(1001, "skraina", "Suresh", "Raina", "sk@gmailcom", "admin", "ssn1001");
+		return new UserEntity(1001, "skraina", "Suresh", "Raina", "sk@gmailcom", "admin", "ssn1001", new ArrayList<>());
 	}
 }
